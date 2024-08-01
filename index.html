@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="overall">
+      <div class="heads">
+        <h1>Expense Tracker</h1>
+      </div>
+      <div class="input-container">
+        <form action="" onsubmit="return Added(event)">
+          <input type="text" id="name" required />
+          <input type="number" name="amount" id="amount" required />
+          <select name="catagory" id="catagory" required>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+          </select>
+          <input type="date" name="date" id="date" required />
+          <button type="submit">Add Expenses</button>
+        </form>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Expense Name</th>
+            <th>Amount</th>
+            <th>Catagory</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+      </table>
+
+      <div class="contain"><span id="total-l">Total: </span><span id="total">00.0</span></div>
+      <div class="alpha-recon">
+        <label for="catagory1">Filter By Category:</label>
+        <select id="catagory1" name="catagory1" onchange="filterByCategory()">
+          <option value="All">All</option>
+          <option value="Food">Food</option>
+          <option value="Transport">Transport</option>
+        </select>
+      </div>
+    </div>
+
+    <script>
+      let total = 0;
+
+      function Added(event) {
+        event.preventDefault();
+
+        let name = document.getElementById("name").value;
+        let amount = parseFloat(document.getElementById("amount").value);
+        let catagory = document.getElementById("catagory").value;
+        let date = document.getElementById("date").value;
+
+        const table = document.getElementsByTagName("tbody")[0];
+        const add = document.createElement("tr");
+        add.innerHTML = `
+                <td><input type="text" name="name" value="${name}" disabled></td>
+                <td><input type="number" name="amount" value="${amount}" disabled></td>
+                <td>
+                    <select name="catagory" disabled>
+                        <option value="Food" ${
+                          catagory === "Food" ? "selected" : ""
+                        }>Food</option>
+                        <option value="Transport" ${
+                          catagory === "Transport" ? "selected" : ""
+                        }>Transport</option>
+                    </select>
+                </td>
+                <td><input type="date" name="date" value="${date}" disabled></td>
+                <td>
+                    <button class="Edit">Edit</button>
+                    <button class="Delete">Delete</button>
+                    <button class="Save" style="display:none;">Save</button>
+                </td>
+            `;
+
+        const inputs = add.querySelectorAll("input, select");
+
+        add.querySelector(".Edit").addEventListener("click", (e) => {
+          e.preventDefault();
+          inputs.forEach((input) => (input.disabled = false));
+          add.querySelector(".Save").style.display = "inline";
+        });
+
+        add.querySelector(".Save").addEventListener("click", (e) => {
+          e.preventDefault();
+          inputs.forEach((input) => (input.disabled = true));
+          add.querySelector(".Save").style.display = "none";
+          updateTotal();
+        });
+
+        add.querySelector(".Delete").addEventListener("click", (e) => {
+          e.preventDefault();
+          add.remove();
+          updateTotal();
+        });
+
+        table.appendChild(add);
+
+        total += amount;
+        document.getElementById("total").innerText = total.toFixed(2);
+      }
+
+      function updateTotal() {
+        let total = 0;
+        document.querySelectorAll("tbody tr").forEach((row) => {
+
+          if(row.style.display!='none'){
+            const amount = parseFloat(
+            row.querySelector('input[name="amount"]').value
+          );
+          total += amount;
+
+          }
+          
+        });
+        document.getElementById("total").innerText = total.toFixed(2);
+      }
+
+      function filterByCategory() {
+        const selectedCategory = document.getElementById("catagory1").value;
+        document.querySelectorAll("tbody tr").forEach((row) => {
+          const rowCategory = row.querySelector(
+            'select[name="catagory"]'
+          ).value;
+          if (selectedCategory === "All" || rowCategory === selectedCategory) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+        updateTotal();
+      }
+    </script>
+  </body>
+</html>

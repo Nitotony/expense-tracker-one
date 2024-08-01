@@ -1,0 +1,67 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.overall{
+    width: 70%;
+    margin: 100px auto;
+}
+.input-container form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.heads h1{
+    text-align: center;
+    padding: 20px;
+}
+
+form button{
+    background-color: green;
+    color: white;
+    padding: 5px;
+    border: none;
+}
+
+table {
+  width: 100%;
+  margin-top: 2em;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+
+th {
+  background-color: #f0f0f0;
+}
+
+.del-button {
+  color: #f00;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.del-button:hover {
+  color: #f66;
+}
+
+.contain{
+    text-align: end;
+    padding: 10px;
+}
+
+#total-l{
+    font-weight: bold;
+
+}
+.alpha-recon{
+    text-align: end;
+     padding: 10px;
+}
